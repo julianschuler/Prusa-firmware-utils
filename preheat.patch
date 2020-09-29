@@ -1,0 +1,71 @@
+diff --git a/Firmware/ultralcd.cpp b/Firmware/ultralcd.cpp
+index 44c2dff7..12e8d10e 100755
+--- a/Firmware/ultralcd.cpp
++++ b/Firmware/ultralcd.cpp
+@@ -2486,40 +2486,34 @@ static void mFilamentItem_PLA()
+     mFilamentItem(PLA_PREHEAT_HOTEND_TEMP, PLA_PREHEAT_HPB_TEMP);
+ }
+ 
+-static void mFilamentItem_PET()
+-{
+-    bFilamentPreheatState = false;
+-    mFilamentItem(PET_PREHEAT_HOTEND_TEMP, PET_PREHEAT_HPB_TEMP);
+-}
+-
+-static void mFilamentItem_ASA()
++static void mFilamentItem_PLA_hotend()
+ {
+     bFilamentPreheatState = false;
+-    mFilamentItem(ASA_PREHEAT_HOTEND_TEMP, ASA_PREHEAT_HPB_TEMP);
++    mFilamentItem(PLA_PREHEAT_HOTEND_TEMP, 0);
+ }
+ 
+-static void mFilamentItem_PC()
++static void mFilamentItem_PET()
+ {
+     bFilamentPreheatState = false;
+-    mFilamentItem(PC_PREHEAT_HOTEND_TEMP, PC_PREHEAT_HPB_TEMP);
++    mFilamentItem(PET_PREHEAT_HOTEND_TEMP, PET_PREHEAT_HPB_TEMP);
+ }
+ 
+-static void mFilamentItem_ABS()
++static void mFilamentItem_PET_hotend()
+ {
+     bFilamentPreheatState = false;
+-    mFilamentItem(ABS_PREHEAT_HOTEND_TEMP, ABS_PREHEAT_HPB_TEMP);
++    mFilamentItem(PET_PREHEAT_HOTEND_TEMP, 0);
+ }
+ 
+-static void mFilamentItem_HIPS()
++static void mFilamentItem_ASA()
+ {
+     bFilamentPreheatState = false;
+-    mFilamentItem(HIPS_PREHEAT_HOTEND_TEMP, HIPS_PREHEAT_HPB_TEMP);
++    mFilamentItem(ASA_PREHEAT_HOTEND_TEMP, ASA_PREHEAT_HPB_TEMP);
+ }
+ 
+-static void mFilamentItem_PP()
++static void mFilamentItem_PC()
+ {
+     bFilamentPreheatState = false;
+-    mFilamentItem(PP_PREHEAT_HOTEND_TEMP, PP_PREHEAT_HPB_TEMP);
++    mFilamentItem(PC_PREHEAT_HOTEND_TEMP, PC_PREHEAT_HPB_TEMP);
+ }
+ 
+ static void mFilamentItem_FLEX()
+@@ -2561,12 +2555,11 @@ void lcd_generic_preheat_menu()
+     else
+     {
+         MENU_ITEM_SUBMENU_P(PSTR("PLA  -  " STRINGIFY(PLA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PLA_PREHEAT_HPB_TEMP)),mFilamentItem_PLA);
+-        MENU_ITEM_SUBMENU_P(PSTR("PET  -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)),mFilamentItem_PET);
++        MENU_ITEM_SUBMENU_P(PSTR("PLA HE  -  " STRINGIFY(PLA_PREHEAT_HOTEND_TEMP) "/0"),mFilamentItem_PLA_hotend);
++        MENU_ITEM_SUBMENU_P(PSTR("PETG  -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PET_PREHEAT_HPB_TEMP)),mFilamentItem_PET);
++        MENU_ITEM_SUBMENU_P(PSTR("PETG HE -  " STRINGIFY(PET_PREHEAT_HOTEND_TEMP) "/0"),mFilamentItem_PET_hotend);
+         MENU_ITEM_SUBMENU_P(PSTR("ASA  -  " STRINGIFY(ASA_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ASA_PREHEAT_HPB_TEMP)),mFilamentItem_ASA);
+         MENU_ITEM_SUBMENU_P(PSTR("PC   -  " STRINGIFY(PC_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PC_PREHEAT_HPB_TEMP)),mFilamentItem_PC);
+-        MENU_ITEM_SUBMENU_P(PSTR("ABS  -  " STRINGIFY(ABS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(ABS_PREHEAT_HPB_TEMP)),mFilamentItem_ABS);
+-        MENU_ITEM_SUBMENU_P(PSTR("HIPS -  " STRINGIFY(HIPS_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(HIPS_PREHEAT_HPB_TEMP)),mFilamentItem_HIPS);
+-        MENU_ITEM_SUBMENU_P(PSTR("PP   -  " STRINGIFY(PP_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(PP_PREHEAT_HPB_TEMP)),mFilamentItem_PP);
+         MENU_ITEM_SUBMENU_P(PSTR("FLEX -  " STRINGIFY(FLEX_PREHEAT_HOTEND_TEMP) "/" STRINGIFY(FLEX_PREHEAT_HPB_TEMP)),mFilamentItem_FLEX);
+     }
+     if (!eeprom_read_byte((uint8_t*)EEPROM_WIZARD_ACTIVE) && eFilamentAction == FilamentAction::Preheat) MENU_ITEM_FUNCTION_P(_T(MSG_COOLDOWN), lcd_cooldown);
